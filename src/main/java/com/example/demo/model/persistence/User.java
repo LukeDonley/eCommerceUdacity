@@ -25,7 +25,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	private String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
