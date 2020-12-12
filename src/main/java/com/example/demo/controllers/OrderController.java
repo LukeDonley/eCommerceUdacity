@@ -29,12 +29,13 @@ public class OrderController {
 	public ResponseEntity<UserOrder> submit(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.error("creteOrder error: User not found");
+			log.error("createOrder Failure: User {} not found", username);
 			return ResponseEntity.notFound().build();
 		}
 		UserOrder order = UserOrder.createFromCart(user.getCart());
 		orderRepository.save(order);
-		log.info("createOrder Success: Order created successfully");
+		log.info("createOrder Success: Order created successfully for {}", username);
+
 		return ResponseEntity.ok(order);
 	}
 	
@@ -42,7 +43,7 @@ public class OrderController {
 	public ResponseEntity<List<UserOrder>> getOrdersForUser(@PathVariable String username) {
 		User user = userRepository.findByUsername(username);
 		if(user == null) {
-			log.error("getOrders error: User not found");
+			log.error("getOrders Failure: User {} not found", username);
 			return ResponseEntity.notFound().build();
 		}
 		return ResponseEntity.ok(orderRepository.findByUser(user));

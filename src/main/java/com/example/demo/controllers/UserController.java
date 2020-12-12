@@ -47,14 +47,15 @@ public class UserController {
 		user.setCart(cart);
 		if(createUserRequest.getPassword().length() < 7 ||
 				!createUserRequest.getPassword().equals(createUserRequest.getConfirmPassword())) {
-			log.error("CreateUser Error: Password is too few characters");
+			log.error("CreateUser Failure: Password Authentication Failed {}", createUserRequest.getUsername());
+
 			return ResponseEntity.badRequest().build();
 		}
 
 		user.setPassword(bCryptPasswordEncoder.encode(createUserRequest.getPassword()));
 		userRepository.save(user);
-		log.info("createUser success: Created user ", createUserRequest.getUsername());
+		log.info("createUser Success: Created user {}", createUserRequest.getUsername());
 		return ResponseEntity.ok(user);
 	}
-	
+
 }
